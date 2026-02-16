@@ -2,38 +2,39 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR API Local</title>
-    <!-- Подключаем ЛОКАЛЬНЫЙ файл, который ты создал на шаге 1 -->
-    <script src="https://winnigames2024-original.github.io/qr-generator/qrcode.min.js"></script>
+    <title>QR Generator Original</title>
     <style>
-        body, html { 
-            margin: 0; padding: 0; 
-            display: flex; justify-content: center; align-items: center; 
-            height: 100vh; background: #ffffff; 
-        }
-        #qrcode img, #qrcode canvas {
-            width: 80vw !important;
-            height: 80vw !important;
-            max-width: 400px !important;
-        }
+        body, html { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: #fff; }
+        #canvas-container { padding: 20px; border: 1px dashed #ccc; }
     </style>
 </head>
 <body>
-    <div id="qrcode"></div>
+    <div id="canvas-container">
+        <canvas id="qr-canvas"></canvas>
+    </div>
+
+    <!-- Используем надежный и легкий скрипт (всего 1 файл) -->
+    <script src="https://cdn.jsdelivr.net"></script>
+
     <script>
         window.onload = function() {
             const params = new URLSearchParams(window.location.search);
             const myText = params.get('text') || "Everything is OK!";
 
-            if (typeof QRCode !== "undefined") {
-                new QRCode(document.getElementById("qrcode"), {
-                    text: myText,
-                    width: 400,
-                    height: 400
+            // Если библиотека qrious загрузилась
+            if (typeof QRious !== "undefined") {
+                const qr = new QRious({
+                    element: document.getElementById('qr-canvas'),
+                    value: myText,
+                    size: 300,
+                    level: 'H'
                 });
             } else {
-                document.body.innerHTML = "Ошибка: Файл qrcode.min.js не найден в репозитории!";
+                // Если CDN всё еще блокируется, используем Google (как самый последний шанс)
+                const img = document.createElement('img');
+                img.src = "https://api.qrserver.com" + encodeURIComponent(myText);
+                document.getElementById('canvas-container').innerHTML = '';
+                document.getElementById('canvas-container').appendChild(img);
             }
         };
     </script>
