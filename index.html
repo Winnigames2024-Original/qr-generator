@@ -1,17 +1,50 @@
-<html>
-  <head>
-    <title>QR Generator</title>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Generator API</title>
+    <!-- Подключаем библиотеку qrcode.js -->
+    <script src="https://cdnjs.cloudflare.com"></script>
+    <style>
+        /* Убираем все отступы, чтобы QR-код был вплотную к краям */
+        body, html {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: white;
+        }
+        #qrcode img {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Контейнер, куда отрисуется QR -->
+    <div id="qrcode"></div>
+
     <script>
-      // Получаем текст из ссылки: твойсайт.io/?text=hello
-      const urlParams = new URLSearchParams(window.location.search);
-      const myText = urlParams.get('data');
+        // Функция для получения текста из ссылки (параметр ?text=...)
+        function getParameterByName(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
 
-      if (myText) {
-           new QRCode(document.getElementById("qrcode"), myText);
-      }
+        // Получаем данные из URL
+        const data = getParameterByName('data') || "https://winnigames2024.ru"; // Если текста нет, покажет "Hello!"
 
-
-
+        // Настройки генерации
+        new QRCode(document.getElementById("qrcode"), {
+            text: data,
+            width: 256,
+            height: 256,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
     </script>
-  </head>
+</body>
 </html>
