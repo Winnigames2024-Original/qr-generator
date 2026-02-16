@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Generator V2 By Winnigames2024</title>
-    <!-- Подключаем библиотеку через проверенный CDN. Если она не загрузится, сработает запасной скрипт ниже -->
-    <script src="https://cdn.jsdelivr.net"></script>
+    <title>QR API Local</title>
+    <!-- Подключаем ЛОКАЛЬНЫЙ файл, который ты создал на шаге 1 -->
+    <script src="qrcode.min.js"></script>
     <style>
         body, html { 
             margin: 0; padding: 0; 
@@ -16,32 +16,24 @@
             width: 80vw !important;
             height: 80vw !important;
             max-width: 400px !important;
-            max-height: 400px !important;
         }
     </style>
 </head>
 <body>
-
     <div id="qrcode"></div>
-
     <script>
         window.onload = function() {
-            // 1. Берем текст из ссылки (?text=...)
             const params = new URLSearchParams(window.location.search);
-            let myText = params.get('text') || "Ready to Work";
+            const myText = params.get('text') || "Everything is OK!";
 
-            // 2. Проверяем, есть ли библиотека. Если нет - пишем ошибку.
             if (typeof QRCode !== "undefined") {
                 new QRCode(document.getElementById("qrcode"), {
                     text: myText,
                     width: 400,
-                    height: 400,
-                    colorDark : "#000000",
-                    colorLight : "#ffffff",
-                    correctLevel : QRCode.CorrectLevel.H
+                    height: 400
                 });
             } else {
-                document.getElementById("qrcode").innerHTML = "Ошибка: Библиотека не загружена. Проверьте интернет или ссылку на скрипт.";
+                document.body.innerHTML = "Ошибка: Файл qrcode.min.js не найден в репозитории!";
             }
         };
     </script>
