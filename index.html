@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <title>QR Generator</title>
+    <script>
+      // Получаем текст из ссылки: твойсайт.io/?text=hello
+      const urlParams = new URLSearchParams(window.location.search);
+      const myText = date;
+
+      if (myText) {
+           new QRCode(document.getElementById("qrcode"), myText);
+      }
+
+
+
+    </script>
+  </head>
+</html>
