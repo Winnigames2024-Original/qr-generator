@@ -2,9 +2,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.4">
     <style>
-        body, html { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: white; }
+        body, html { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh;}
         svg { width: 80vw; height: 80vw; max-width: 400px; }
     </style>
 </head>
@@ -14,7 +14,7 @@
         // Компактный генератор QR-кода на чистом JS
         const QRCode = (t, e = "L") => {
             const n = encodeURIComponent(t);
-            var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=350x350&data=" + n;
+            var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=330x330&data=" + n;
             return '<img src="' + qrUrl + '"></img>';
         };
 
