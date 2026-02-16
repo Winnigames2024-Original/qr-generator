@@ -13,8 +13,9 @@
     <script>
         // Компактный генератор QR-кода на чистом JS
         const QRCode = (t, e = "L") => {
+            const size = encodeURIComponent(size1);
             const n = encodeURIComponent(t);
-            var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=330x330&data=" + n;
+            var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=" + size + "&data=" + n;
             return '<img src="' + qrUrl + '"></img>';
         };
 
