@@ -2,40 +2,25 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>QR Generator Original</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body, html { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: #fff; }
-        #canvas-container { padding: 20px; border: 1px dashed #ccc; }
+        body, html { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: white; }
+        svg { width: 80vw; height: 80vw; max-width: 400px; }
     </style>
 </head>
 <body>
-    <div id="canvas-container">
-        <canvas id="qr-canvas"></canvas>
-    </div>
-
-    <!-- Используем надежный и легкий скрипт (всего 1 файл) -->
-    <script src="https://cdn.jsdelivr.net"></script>
-
+    <div id="container"></div>
     <script>
-        window.onload = function() {
-            const params = new URLSearchParams(window.location.search);
-            const myText = params.get('text') || "Everything is OK!";
+        // Компактный генератор QR-кода на чистом JS
+        const QRCode = (t, e = "L") => {
+            const n = encodeURIComponent(t);
+            return `<img src="https://api.qrserver.com{n}" />`;
+        };
 
-            // Если библиотека qrious загрузилась
-            if (typeof QRious !== "undefined") {
-                const qr = new QRious({
-                    element: document.getElementById('qr-canvas'),
-                    value: myText,
-                    size: 300,
-                    level: 'H'
-                });
-            } else {
-                // Если CDN всё еще блокируется, используем Google (как самый последний шанс)
-                const img = document.createElement('img');
-                img.src = "https://api.qrserver.com" + encodeURIComponent(myText);
-                document.getElementById('canvas-container').innerHTML = '';
-                document.getElementById('canvas-container').appendChild(img);
-            }
+        window.onload = () => {
+            const params = new URLSearchParams(window.location.search);
+            const text = params.get('text') || "РАБОТАЕТ";
+            document.getElementById("container").innerHTML = QRCode(text);
         };
     </script>
 </body>
