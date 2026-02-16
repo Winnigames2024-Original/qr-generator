@@ -13,12 +13,12 @@
     <img id="qr-img" src="" alt="QR Code">
 
     <script>
-        // 1. Получаем текст из ссылки ?text=...
+        // 1. Получаем текст из ссылки ?data=...
         const params = new URLSearchParams(window.location.search);
         const myText = params.get('data') || "https://winnigames2024.ru/";
 
         // 2. Используем API Google для создания картинки
-        const qrUrl = `https://chart.googleapis.com{encodeURIComponent(myText)}`;
+        const qrUrl = "https://chart.googleapis.com{encodeURIComponent(myText)}";
         
         // 3. Устанавливаем эту картинку в наш тег <img>
         document.getElementById('qr-img').src = qrUrl;
