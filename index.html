@@ -27,24 +27,22 @@
     <div id="qrcode"></div>
 
     <script>
-        // Функция для получения текста из ссылки (параметр ?text=...)
-        function getParameterByName(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
+                window.onload = function() {
+            // 1. Берем текст из ссылки ?text=...
+            const params = new URLSearchParams(window.location.search);
+            const myText = params.get('data') || "https://winnigames2024.ru/";
 
-        // Получаем данные из URL
-        const data = getParameterByName('data') || "https://winnigames2024.ru"; // Если текста нет, покажет "Hello!"
-
-        // Настройки генерации
-        new QRCode(document.getElementById("qrcode"), {
-            text: data,
-            width: 256,
-            height: 256,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
-        });
+            // 2. Проверяем, загрузилась ли библиотека
+            if (typeof QRCode !== "undefined") {
+                new QRCode(document.getElementById("qrcode"), {
+                    text: myText,
+                    width: 256,
+                    height: 256
+                });
+            } else {
+                document.getElementById("qrcode").innerHTML = "Ошибка загрузки библиотеки!";
+            }
+        };
     </script>
 </body>
 </html>
