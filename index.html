@@ -1,48 +1,55 @@
-<html lang="ru">
+<!DOCTYPE html>
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Generator API</title>
-    <!-- Подключаем библиотеку qrcode.js -->
-    <script src="https://cdnjs.cloudflare.com"></script>
+    <title>QR Generator</title>
     <style>
-        /* Убираем все отступы, чтобы QR-код был вплотную к краям */
-        body, html {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: white;
-        }
-        #qrcode img {
-            display: block;
-        }
+        body, html { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: white; overflow: hidden; }
+        #qrcode img { max-width: 90vw; max-height: 90vh; }
     </style>
+    <!-- Вставляем библиотеку прямо сюда (сокращенная версия) -->
+    <script src="https://cdn.jsdelivr.net"></script>
 </head>
 <body>
-
-    <!-- Контейнер, куда отрисуется QR -->
     <div id="qrcode"></div>
 
     <script>
-                window.onload = function() {
-            // 1. Берем текст из ссылки ?text=...
+        function generate() {
             const params = new URLSearchParams(window.location.search);
-            const myText = params.get('data') || "https://winnigames2024.ru/";
-
-            // 2. Проверяем, загрузилась ли библиотека
-            if (typeof QRCode !== "undefined") {
-                new QRCode(document.getElementById("qrcode"), {
-                    text: myText,
-                    width: 256,
-                    height: 256
-                });
-            } else {
-                document.getElementById("qrcode").innerHTML = "Ошибка загрузки библиотеки!";
+            const myText = params.get('data');
+            
+            const container = document.getElementById("qrcode");
+            
+            if (!myText) {
+                container.innerHTML = "<p style='font-family:sans-serif'>Добавьте ?text=ваш_текст в URL</p>";
+                return;
             }
-        };
+
+            try {
+                new QRCode(container, {
+                    text: myText,
+                    width: 512, // Делаем размер больше для четкости
+                    height: 512,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            } catch (e) {
+                container.innerHTML = "Ошибка: " + e.message;
+            }
+        }
+
+        // Запуск при загрузке
+        if (window.QRCode) {
+            generate();
+        } else {
+            // Резервный метод загрузки, если CDN подвел
+            const script = document.createElement('script');
+            script.src = "https://cdnjs.cloudflare.com";
+            script.onload = generate;
+            document.head.appendChild(script);
+        }
     </script>
 </body>
 </html>
+
