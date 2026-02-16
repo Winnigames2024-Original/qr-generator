@@ -2,27 +2,48 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>QR Generator V2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Generator V2 By Winnigames2024</title>
+    <!-- Подключаем библиотеку через проверенный CDN. Если она не загрузится, сработает запасной скрипт ниже -->
+    <script src="https://cdn.jsdelivr.net"></script>
     <style>
-        body, html { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: white; }
-        img { width: 80vw; height: 80vw; max-width: 500px; }
+        body, html { 
+            margin: 0; padding: 0; 
+            display: flex; justify-content: center; align-items: center; 
+            height: 100vh; background: #ffffff; 
+        }
+        #qrcode img, #qrcode canvas {
+            width: 80vw !important;
+            height: 80vw !important;
+            max-width: 400px !important;
+            max-height: 400px !important;
+        }
     </style>
 </head>
 <body>
 
-    <img id="qr-img" src="" alt="QR Code">
+    <div id="qrcode"></div>
 
     <script>
-        // 1. Получаем текст из ссылки ?data=...
-        const params = new URLSearchParams(window.location.search);
-        const myText = params.get('data') || "https://winnigames2024.ru/";
+        window.onload = function() {
+            // 1. Берем текст из ссылки (?text=...)
+            const params = new URLSearchParams(window.location.search);
+            let myText = params.get('text') || "Ready to Work";
 
-        // 2. Используем API Google для создания картинки
-        const qrUrl = "https://chart.googleapis.com{encodeURIComponent(myText)}";
-        
-        // 3. Устанавливаем эту картинку в наш тег <img>
-        document.getElementById('qr-img').src = qrUrl;
+            // 2. Проверяем, есть ли библиотека. Если нет - пишем ошибку.
+            if (typeof QRCode !== "undefined") {
+                new QRCode(document.getElementById("qrcode"), {
+                    text: myText,
+                    width: 400,
+                    height: 400,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            } else {
+                document.getElementById("qrcode").innerHTML = "Ошибка: Библиотека не загружена. Проверьте интернет или ссылку на скрипт.";
+            }
+        };
     </script>
-    
 </body>
 </html>
